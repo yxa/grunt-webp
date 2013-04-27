@@ -28,24 +28,13 @@ module.exports = function(grunt) {
       tests: ['tmp'],
     },
 
-    // Configuration to be run (and then tested).
     webp: {
-      default_options: {
-        options: {
-        },
-        files: {
-          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123'],
-        },
+      dirOne: {
+         files:  [ { src: ['img/*.jpg'], dest: 'tmp1/' } ]
       },
-      custom_options: {
-        options: {
-          separator: ': ',
-          punctuation: ' !!!',
-        },
-        files: {
-          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123'],
-        },
-      },
+      dirTwo: {
+         files:  [ { src: ['img/*.jpg'], dest: 'tmp2/' } ]
+      }
     },
 
     // Unit tests.
@@ -69,5 +58,5 @@ module.exports = function(grunt) {
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);
-
+  grunt.registerTask('compress', ['clean', 'webp']);
 };

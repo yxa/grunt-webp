@@ -1,50 +1,41 @@
-/*
- * grunt-webp
- * https://github.com/yxa/grunt-webp
- *
- * Copyright (c) 2013 torbjorn josefsson
- * Licensed under the MIT license.
- */
+var path = require('path'),
+    fs   = require('fs-extra');
 
 'use strict';
 
 module.exports = function(grunt) {
 
-  // Please see the Grunt documentation for more information regarding task
-  // creation: http://gruntjs.com/creating-tasks
+  grunt.registerMultiTask('webp', 'compress your images files with google webp', function() {
+    var options = this.options();
 
-  grunt.registerMultiTask('webp', 'Your task description goes here.', function() {
-    // Merge task-specific and/or target-specific options with these defaults.
-    var options = this.options({
-      punctuation: '.',
-      separator: ', '
-    });
+    this.files.forEach(function(pair) {
+      var isExpandedPair = pair.orig.expand || false;
+      var src = pair.src.filter(function(f) {
+        return grunt.file.isFile(f);
+      });
 
-    // Iterate over all specified file groups.
-    this.files.forEach(function(f) {
-      // Concat specified files.
-      var src = f.src.filter(function(filepath) {
-        // Warn on and remove invalid source files (if nonull was set).
-        if (!grunt.file.exists(filepath)) {
-          grunt.log.warn('Source file "' + filepath + '" not found.');
-          return false;
-        } else {
-          return true;
-        }
-      }).map(function(filepath) {
-        // Read file source.
-        return grunt.file.read(filepath);
-      }).join(grunt.util.normalizelf(options.separator));
+      src.forEach(function(file){
+        var destFileName = (isExpandedPair) ? pair.dest : path.join(pair.dest || '', file);
+        fs.mkdirsSync(path.dirname(destFileName));
 
-      // Handle options.
-      src += options.punctuation;
+        var args = [];
+        args.push('-q');
+        args.push('100');
+        args.push(file);
+        args.push('-o');
+        args.push(destFileName + '.webp');
 
-      // Write the destination file.
-      grunt.file.write(f.dest, src);
+        var child = grunt.util.spawn({ cmd: 'cwebp', args: args }, function(error, result, code) {
+          grunt.log.writeln(code+''+result);
+          if (code !== 0) {
+            return grunt.warn(String(code));
+          }
+        });
 
-      // Print a success message.
-      grunt.log.writeln('File "' + f.dest + '" created.');
+       child.stdout.pipe(process.stdout);
+       child.stderr.pipe(process.stderr);
+
+      });
     });
   });
-
 };
