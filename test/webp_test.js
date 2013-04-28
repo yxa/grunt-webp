@@ -1,7 +1,7 @@
 'use strict';
 
 var grunt = require('grunt'),
-    fs = require('fs');
+    fs    = require('fs');
 
 exports.webp = {
   compress: function(test) {

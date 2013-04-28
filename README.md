@@ -1,4 +1,4 @@
-# grunt-webp
+# grunt-webp (not published yet)
 
 > WebP (weppy) compress your images
 
