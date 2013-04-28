@@ -22,9 +22,7 @@ module.exports = function(grunt) {
       });
 
       src.forEach(function(file){
-
         var originalSize = fs.statSync(file).size;
-
         var destFileName = (isExpandedPair) ? pair.dest : path.join(pair.dest || '', file);
         grunt.file.mkdir(path.dirname(destFileName));
 
@@ -32,12 +30,10 @@ module.exports = function(grunt) {
 
         var child = grunt.util.spawn({ cmd: 'cwebp', args: webpArgs },function processed(error, result, code) {
           var saved, message;
-
           if(error) {
             grunt.util.writeln(error);
           }
-
-          saved = originalSize - fs.statSync(dest).size;
+          saved = originalSize - fs.statSync(destFileName).size;
           grunt.log.writeln('OK'.green + file + (' (' + message + ')').grey);
         });
 

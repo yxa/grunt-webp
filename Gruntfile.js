@@ -29,12 +29,9 @@ module.exports = function(grunt) {
     },
 
     webp: {
-      dirOne: {
+      firstPair: {
          options: { quality: 50 },
-         files:  [ { src: ['img/**/*.jpg'], dest: 'tmp1/' } ]
-      },
-      dirTwo: {
-         files:  [ { src: ['img/*.jpg'], dest: 'tmp2/' } ]
+         files:  [ { src: ['test/*.jpg'], dest: 'tmp' } ]
       }
     },
 
