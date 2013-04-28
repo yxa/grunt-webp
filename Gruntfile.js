@@ -25,12 +25,13 @@ module.exports = function(grunt) {
 
     // Before generating any new files, remove any previously-created files.
     clean: {
-      tests: ['tmp'],
+      tests: ['tmp']
     },
 
     webp: {
       dirOne: {
-         files:  [ { src: ['img/*.jpg'], dest: 'tmp1/' } ]
+         options: { quality: 50 },
+         files:  [ { src: ['img/**/*.jpg'], dest: 'tmp1/' } ]
       },
       dirTwo: {
          files:  [ { src: ['img/*.jpg'], dest: 'tmp2/' } ]
