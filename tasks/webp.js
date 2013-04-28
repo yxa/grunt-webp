@@ -2,7 +2,6 @@
 
 module.exports = function(grunt) {
   var path      = require('path');
-  var fileSize  = require('filesize');
   var fs        = require('fs');
 
   grunt.registerMultiTask('webp', 'compress your images files with google webp', function() {
